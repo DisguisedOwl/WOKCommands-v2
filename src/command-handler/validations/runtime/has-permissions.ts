@@ -10,7 +10,7 @@ export default async (command: Command, usage: CommandUsage) => {
   const { permissions = [] } = command.commandObject;
   const { instance, guild, member, message, interaction } = usage;
 
-  if (!member || !instance.isConnectedToDB) {
+  if (!member) {
     return true;
   }
 
@@ -29,20 +29,13 @@ export default async (command: Command, usage: CommandUsage) => {
     const missingPermissions = [];
 
     for (const permission of permissions) {
-      // @ts-ignore
       if (!member.permissions.has(permission)) {
-        const permissionName = keys.find(
-          // @ts-ignore
-          (key) => key === permission || PermissionFlagsBits[key] === permission
-        );
-        missingPermissions.push(permissionName);
+        missingPermissions.push(permission);
       }
     }
 
     if (missingPermissions.length) {
-      const text = `You are missing the following permissions: "${missingPermissions.join(
-        '", "'
-      )}"`;
+      const text = `You are missing the permissions to run this command:`;
 
       if (message) message.reply(text);
       else if (interaction) interaction.reply(text);

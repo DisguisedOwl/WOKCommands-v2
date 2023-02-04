@@ -35,7 +35,7 @@ export default async (command: Command, usage: CommandUsage) => {
     }
 
     if (missingPermissions.length) {
-      const text = `You are missing the permissions to run this command:`;
+      const text = `You are missing the permissions to run this command.`;
 
       if (message) message.reply(text);
       else if (interaction) interaction.reply(text);
